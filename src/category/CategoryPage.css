@@ -1,0 +1,222 @@
+/* src/category/CategoryPage.css */
+
+/* Wrapper for alt til høyre for sidemenyen */
+.category-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem 3rem;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* Tittel + tekst */
+.category-header {
+    margin-bottom: 1.5rem;
+}
+
+.category-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+}
+
+.category-header p {
+    margin: 0;
+    color: #4b5563;
+    font-size: 0.95rem;
+}
+
+/* Rad med periode, søk og knapp */
+.category-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+.category-period-select {
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    font-size: 0.85rem;
+    background: #f3f4f6;
+}
+
+.category-controls-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Søkefeltet */
+.category-search {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid #f97373;
+    background: #fff;
+}
+
+.category-search input {
+    border: none;
+    outline: none;
+    font-size: 0.85rem;
+    width: 220px;
+}
+
+.search-icon {
+    font-size: 0.85rem;
+}
+
+/* Legg til produkt-knapp */
+.add-product-btn {
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: none;
+    background: #f43f5e;
+    color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.add-product-btn:hover {
+    background: #e11d48;
+}
+
+/* Hovedkortet/tabellen */
+.category-table-card {
+    margin-top: 0.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+/* Header-raden i tabellen */
+.category-table-header {
+    display: grid;
+    grid-template-columns: 3fr 0.8fr 0.8fr 0.8fr 0.9fr 0.9fr;
+    padding: 0.9rem 2rem;
+    font-size: 0.8rem;
+    color: #6b7280;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    z-index: 1;
+}
+
+.category-header-product {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sort-button {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid #d1d5db;
+    background: #f3f4f6;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.sort-button.active {
+    border-color: #f97373;
+    background: #fff5f5;
+}
+
+.sort-arrow {
+    font-size: 0.7rem;
+}
+
+.category-col-label {
+    text-align: right;
+}
+
+.category-col-label.sortable {
+    text-align: right;
+    cursor: pointer;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+}
+
+.category-col-label.sortable.active {
+    color: #111827;
+    font-weight: 600;
+}
+
+.sort-arrow {
+    font-size: 0.7rem;
+}
+
+
+/* Produkt-rader */
+.category-row {
+    display: grid;
+    grid-template-columns: 3fr 0.8fr 0.8fr 0.8fr 0.9fr 0.9fr;
+    padding: 0.9rem 2rem;
+    border-top: 1px solid #f3f4f6;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+/* Produktinfo-cellen */
+.category-product-cell {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.category-product-cell img {
+    width: 52px;
+    height: 52px;
+    border-radius: 0.5rem;
+    object-fit: cover;
+}
+
+.category-product-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.category-product-title-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.category-product-brand {
+    font-weight: 700;
+}
+
+.category-product-name {
+    font-weight: 500;
+}
+
+.category-product-id {
+    font-size: 0.7rem;
+    color: #9ca3af;
+}
+
+/* Tallkolonner */
+.category-col {
+    text-align: right;
+}
+
+.category-col.numeric {
+    font-variant-numeric: tabular-nums;
+}
