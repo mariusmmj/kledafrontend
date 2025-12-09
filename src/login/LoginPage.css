@@ -1,0 +1,72 @@
+/* Hele sideflaten */
+.login-page {
+    min-height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Topplinje med logo (venstre) */
+.login-header {
+    padding: 1.5rem 2rem;
+}
+
+.login-logo {
+    height: 40px;
+    object-fit: contain;
+}
+
+/* Midtstilt form */
+.login-main {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* midt horisontalt */
+    align-items: center;     /* midt vertikalt */
+}
+
+/* Selve formen */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    min-width: 320px;
+}
+
+/* Label + input */
+.login-label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+/* Input-felt: rosa border + avrundet */
+.login-input {
+    margin-top: 0.35rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid #f97373;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.login-input:focus {
+    border-color: #f43f5e;
+}
+
+/* Login-knapp */
+.login-button {
+    align-self: flex-start;
+    margin-top: 0.4rem;
+    padding: 0.45rem 1.1rem;
+    border-radius: 999px;
+    border: none;
+    background: #c74355;
+    color: #ffffff;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+.login-button:hover {
+    background: #b23446;
+}

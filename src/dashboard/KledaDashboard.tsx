@@ -17,8 +17,8 @@ function Card({ children, className = "" }: { children: React.ReactNode; classNa
 // Sidebar
 export function Sidebar() {
   const general = [
-    {label: "📊 Dashboard", to: "/"},
-    {label: "🛒 Ordre", to: "/"}
+    {label: "📊 Dashboard", to: "/dashboard"},
+    {label: "🛒 Ordre", to: "/dasboard"}
   ];
   const categories = [
     { id: "hoodies", label: "Hettegensere og sweatshirts" },

@@ -1,18 +1,24 @@
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import KledaDashboard from "./dashboard/KledaDashboard";
 import CategoryPage from "./category/CategoryPage";
+import LoginPage from "./login/LoginPage";
 
-export default function App() {
+const App: React.FC = () => {
     return (
         <Router>
             <Routes>
+                {/* Login er hovedinngangen */}
+                <Route path="/" element={<LoginPage />} />
 
-                {/* Dashboard */}
-                <Route path="/" element={<KledaDashboard />} />
+                {/* Dashboard etter innlogging */}
+                <Route path="/dashboard" element={<KledaDashboard />} />
 
-                {/* Kategoriside */}
+                {/* Kategorisider */}
                 <Route path="/kategori/:categoryId" element={<CategoryPage />} />
             </Routes>
         </Router>
     );
-}
+};
+
+export default App;
