@@ -1,266 +1,11 @@
 // src/category/CategoryPage.tsx
 import React, { useState, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Sidebar } from "../dashboard/KledaDashboard";
+import { HOODIE_PRODUCTS, Product } from "./productsMock";
 import "./CategoryPage.css";
-import genser1 from "../images/genser1.png";
-import genser2 from "../images/genser2.jpg";
 
-type Product = {
-    id: number;
-    brand: string;
-    name: string;
-    code: string;
-    price: number;
-    sold: number;
-    clicks: number;
-    favorites: number;
-    inCart: number;
-    img: string;
-};
 
-const HOODIE_PRODUCTS: Product[] = [
-    {
-        id: 1,
-        brand: "Nike Club",
-        name: "Full-Zip Hoodie",
-        code: "123456789",
-        price: 749,
-        sold: 18,
-        clicks: 420,
-        favorites: 67,
-        inCart: 54,
-        img: genser1,
-    },
-    {
-        id: 2,
-        brand: "Nike Club",
-        name: "Pullover hoodie",
-        code: "987654321",
-        price: 699,
-        sold: 22,
-        clicks: 510,
-        favorites: 81,
-        inCart: 63,
-        img: genser2,
-    },
-    {
-        id: 3,
-        brand: "Nike Club",
-        name: "Training Sweatshirt",
-        code: "111222333",
-        price: 599,
-        sold: 15,
-        clicks: 370,
-        favorites: 41,
-        inCart: 43,
-        img: genser1,
-    },
-    {
-        id: 4,
-        brand: "Nike Sportswear",
-        name: "Essential Hoodie",
-        code: "444555666",
-        price: 649,
-        sold: 17,
-        clicks: 390,
-        favorites: 58,
-        inCart: 47,
-        img: genser2,
-    },
-    {
-        id: 5,
-        brand: "Nike Club",
-        name: "Full-Zip Hoodie",
-        code: "223344556",
-        price: 749,
-        sold: 21,
-        clicks: 450,
-        favorites: 73,
-        inCart: 51,
-        img: genser1,
-    },
-    {
-        id: 6,
-        brand: "Nike Club",
-        name: "Pullover hoodie",
-        code: "998877665",
-        price: 699,
-        sold: 19,
-        clicks: 490,
-        favorites: 76,
-        inCart: 60,
-        img: genser2,
-    },
-    {
-        id: 7,
-        brand: "Nike Club",
-        name: "Training Sweatshirt",
-        code: "112358132",
-        price: 599,
-        sold: 13,
-        clicks: 340,
-        favorites: 38,
-        inCart: 40,
-        img: genser1,
-    },
-    {
-        id: 8,
-        brand: "Nike Sportswear",
-        name: "Essential Hoodie",
-        code: "777888999",
-        price: 649,
-        sold: 20,
-        clicks: 415,
-        favorites: 62,
-        inCart: 49,
-        img: genser2,
-    },
-    {
-        id: 9,
-        brand: "Nike Club",
-        name: "Full-Zip Hoodie",
-        code: "123123123",
-        price: 749,
-        sold: 24,
-        clicks: 480,
-        favorites: 69,
-        inCart: 56,
-        img: genser1,
-    },
-    {
-        id: 10,
-        brand: "Nike Club",
-        name: "Pullover hoodie",
-        code: "321321321",
-        price: 699,
-        sold: 17,
-        clicks: 430,
-        favorites: 79,
-        inCart: 58,
-        img: genser2,
-    },
-    {
-        id: 11,
-        brand: "Nike Club",
-        name: "Training Sweatshirt",
-        code: "159753486",
-        price: 599,
-        sold: 11,
-        clicks: 300,
-        favorites: 36,
-        inCart: 34,
-        img: genser1,
-    },
-    {
-        id: 12,
-        brand: "Nike Sportswear",
-        name: "Essential Hoodie",
-        code: "456789123",
-        price: 649,
-        sold: 16,
-        clicks: 365,
-        favorites: 55,
-        inCart: 42,
-        img: genser2,
-    },
-    {
-        id: 13,
-        brand: "Nike Club",
-        name: "Full-Zip Hoodie",
-        code: "999888777",
-        price: 749,
-        sold: 23,
-        clicks: 505,
-        favorites: 71,
-        inCart: 52,
-        img: genser1,
-    },
-    {
-        id: 14,
-        brand: "Nike Club",
-        name: "Pullover hoodie",
-        code: "888777666",
-        price: 699,
-        sold: 21,
-        clicks: 520,
-        favorites: 85,
-        inCart: 68,
-        img: genser2,
-    },
-    {
-        id: 15,
-        brand: "Nike Club",
-        name: "Training Sweatshirt",
-        code: "777666555",
-        price: 599,
-        sold: 10,
-        clicks: 280,
-        favorites: 33,
-        inCart: 30,
-        img: genser1,
-    },
-    {
-        id: 16,
-        brand: "Nike Sportswear",
-        name: "Essential Hoodie",
-        code: "666555444",
-        price: 649,
-        sold: 14,
-        clicks: 350,
-        favorites: 49,
-        inCart: 37,
-        img: genser2,
-    },
-    {
-        id: 17,
-        brand: "Nike Club",
-        name: "Full-Zip Hoodie",
-        code: "555444333",
-        price: 749,
-        sold: 20,
-        clicks: 410,
-        favorites: 60,
-        inCart: 48,
-        img: genser1,
-    },
-    {
-        id: 18,
-        brand: "Nike Club",
-        name: "Pullover hoodie",
-        code: "444333222",
-        price: 699,
-        sold: 18,
-        clicks: 495,
-        favorites: 77,
-        inCart: 64,
-        img: genser2,
-    },
-    {
-        id: 19,
-        brand: "Nike Club",
-        name: "Training Sweatshirt",
-        code: "333222111",
-        price: 599,
-        sold: 12,
-        clicks: 310,
-        favorites: 35,
-        inCart: 33,
-        img: genser1,
-    },
-    {
-        id: 20,
-        brand: "Nike Sportswear",
-        name: "Essential Hoodie",
-        code: "222111000",
-        price: 649,
-        sold: 19,
-        clicks: 380,
-        favorites: 57,
-        inCart: 46,
-        img: genser2,
-    },
-];
 
 const CATEGORY_TITLES: Record<
     string,
@@ -285,6 +30,12 @@ type SortConfig = {
 
 const CategoryPage: React.FC = () => {
     const { categoryId } = useParams<{ categoryId: string }>();
+
+    const navigate = useNavigate();
+
+    const handleRowClick = (id: number) => {
+        navigate(`/produkt/${id}`);
+    };
 
     const [sortConfig, setSortConfig] = useState<SortConfig>({
         key: "price",
@@ -487,7 +238,7 @@ const CategoryPage: React.FC = () => {
 
                         {/* Produkt-rader */}
                         {sortedProducts.map((p) => (
-                            <div key={p.id} className="category-row">
+                            <div key={p.id} className="category-row" onClick={() => handleRowClick(p.id)}>
                                 <div className="category-product-cell">
                                     <img src={p.img} alt={p.name} />
                                     <div className="category-product-text">
