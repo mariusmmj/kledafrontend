@@ -14,6 +14,8 @@ export type Product = {
     img: string;
 };
 
+// ----------------------Hoodies-------------------------
+
 export const HOODIE_PRODUCTS: Product[] = [
     {
         id: 1,
@@ -257,6 +259,178 @@ export const HOODIE_PRODUCTS: Product[] = [
     },
 ];
 
-export function getProductById(id: number): Product | undefined {
-    return HOODIE_PRODUCTS.find((p) => p.id === id);
+// ----------------------Bukse-------------------------
+const BUKSE_PRODUCTS: Product[] = [
+    {
+        id: 101,
+        brand: "Nike Sportswear",
+        name: "Tech Fleece Joggers",
+        code: "BKS-001",
+        price: 899,
+        sold: 35,
+        clicks: 210,
+        favorites: 48,
+        inCart: 22,
+        img: genser2, // bytt til bukse-bilde senere
+    },
+];
+
+const LEGGINGS_PRODUCTS: Product[] = [
+    {
+        id: 102,
+        brand: "Nike Pro",
+        name: "Training Leggings",
+        code: "LEG-001",
+        price: 599,
+        sold: 52,
+        clicks: 330,
+        favorites: 60,
+        inCart: 30,
+        img: genser1,
+    },
+];
+
+const MATCHENDE_SETT_PRODUCTS: Product[] = [
+    {
+        id: 103,
+        brand: "Nike Club",
+        name: "Hoodie & Jogger Set",
+        code: "SET-001",
+        price: 1299,
+        sold: 18,
+        clicks: 190,
+        favorites: 40,
+        inCart: 15,
+        img: genser2,
+    },
+];
+
+const JAKKE_PRODUCTS: Product[] = [
+    {
+        id: 104,
+        brand: "Nike",
+        name: "Windrunner Jacket",
+        code: "JAKKE-001",
+        price: 1199,
+        sold: 27,
+        clicks: 260,
+        favorites: 55,
+        inCart: 19,
+        img: genser1,
+    },
+];
+
+const OVERDELER_TSKJORTE_PRODUCTS: Product[] = [
+    {
+        id: 105,
+        brand: "Nike Sportswear",
+        name: "Dry-Fit T-shirt",
+        code: "TOP-001",
+        price: 349,
+        sold: 80,
+        clicks: 420,
+        favorites: 90,
+        inCart: 45,
+        img: genser2,
+    },
+];
+
+const SHORTS_PRODUCTS: Product[] = [
+    {
+        id: 106,
+        brand: "Nike",
+        name: "Training Shorts",
+        code: "SH-001",
+        price: 399,
+        sold: 40,
+        clicks: 230,
+        favorites: 35,
+        inCart: 20,
+        img: genser1,
+    },
+];
+
+const SPORTS_BH_PRODUCTS: Product[] = [
+    {
+        id: 107,
+        brand: "Nike Pro",
+        name: "Sports Bra",
+        code: "SBH-001",
+        price: 449,
+        sold: 32,
+        clicks: 210,
+        favorites: 50,
+        inCart: 18,
+        img: genser2,
+    },
+];
+
+const TILBEHOR_PRODUCTS: Product[] = [
+    {
+        id: 108,
+        brand: "Nike",
+        name: "Training Socks 3-pack",
+        code: "ACC-001",
+        price: 199,
+        sold: 120,
+        clicks: 310,
+        favorites: 65,
+        inCart: 40,
+        img: genser1,
+    },
+];
+
+const SPORT_PRODUCTS: Product[] = [
+    {
+        id: 109,
+        brand: "Nike",
+        name: "Gym Training Pack",
+        code: "SPORT-001",
+        price: 1599,
+        sold: 14,
+        clicks: 180,
+        favorites: 28,
+        inCart: 10,
+        img: genser2,
+    },
+];
+
+// Samle alle produkter per kategori-id
+export const PRODUCTS_BY_CATEGORY: Record<string, Product[]> = {
+    hoodies: HOODIE_PRODUCTS,
+    bukser: BUKSE_PRODUCTS,
+    leggings: LEGGINGS_PRODUCTS,
+    "matchende-sett": MATCHENDE_SETT_PRODUCTS,
+    jakker: JAKKE_PRODUCTS,
+    "overdeler-t-skjorter": OVERDELER_TSKJORTE_PRODUCTS,
+    shorts: SHORTS_PRODUCTS,
+    "sports-bh": SPORTS_BH_PRODUCTS,
+    tilbehor: TILBEHOR_PRODUCTS,
+    sport: SPORT_PRODUCTS,
+};
+
+
+export function getProductsForCategory(categoryId: string): Product[] {
+    return PRODUCTS_BY_CATEGORY[categoryId] ?? HOODIE_PRODUCTS;
 }
+
+
+export function getProductById(id: number): Product | undefined {
+
+    const all = [
+        ...HOODIE_PRODUCTS,
+        ...BUKSE_PRODUCTS,
+        ...LEGGINGS_PRODUCTS,
+        ...MATCHENDE_SETT_PRODUCTS,
+        ...JAKKE_PRODUCTS,
+        ...OVERDELER_TSKJORTE_PRODUCTS,
+        ...SHORTS_PRODUCTS,
+        ...SPORTS_BH_PRODUCTS,
+        ...TILBEHOR_PRODUCTS,
+        ...SPORT_PRODUCTS,
+    ];
+    return all.find((p) => p.id === id);
+}
+
+
+

@@ -2,15 +2,12 @@
 import React, { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Sidebar } from "../dashboard/KledaDashboard";
-import { HOODIE_PRODUCTS, Product } from "./productsMock";
+import {getProductsForCategory, HOODIE_PRODUCTS, Product} from "./productsMock";
 import "./CategoryPage.css";
 
 
 
-const CATEGORY_TITLES: Record<
-    string,
-    { title: string; description: string }
-> = {
+const CATEGORY_TITLES: Record<string, { title: string; description: string }> = {
     hoodies: {
         title: "Hettegensere og sweatshirts",
         description: "Her er oversikt over alle produkter i denne kategorien",
@@ -18,6 +15,38 @@ const CATEGORY_TITLES: Record<
     bukser: {
         title: "Bukser",
         description: "Her er oversikt over alle bukser i denne kategorien",
+    },
+    leggings: {
+        title: "Leggings",
+        description: "Her er oversikt over alle leggings i denne kategorien",
+    },
+    "matchende-sett": {
+        title: "Matchende sett",
+        description: "Her er oversikt over alle matchende sett i denne kategorien",
+    },
+    jakker: {
+        title: "Jakker",
+        description: "Her er oversikt over alle jakker i denne kategorien",
+    },
+    "overdeler-t-skjorter": {
+        title: "Overdeler og T-skjorter",
+        description: "Her er oversikt over overdeler og T-skjorter i denne kategorien",
+    },
+    shorts: {
+        title: "Shorts",
+        description: "Her er oversikt over alle shorts i denne kategorien",
+    },
+    "sports-bh": {
+        title: "Sports-BH-er",
+        description: "Her er oversikt over alle sports-BH-er i denne kategorien",
+    },
+    tilbehor: {
+        title: "Tilbehør",
+        description: "Her er oversikt over alt tilbehør i denne kategorien",
+    },
+    sport: {
+        title: "Sport",
+        description: "Her er oversikt over alle sportsprodukter i denne kategorien",
     },
 };
 
@@ -30,6 +59,10 @@ type SortConfig = {
 
 const CategoryPage: React.FC = () => {
     const { categoryId } = useParams<{ categoryId: string }>();
+
+    const currentId = categoryId ?? "hoodies";
+
+
 
     const navigate = useNavigate();
 
@@ -56,10 +89,10 @@ const CategoryPage: React.FC = () => {
         });
     };
 
-    const meta =
-        (categoryId && CATEGORY_TITLES[categoryId]) || CATEGORY_TITLES["hoodies"];
+    const meta = CATEGORY_TITLES[currentId] ?? CATEGORY_TITLES["hoodies"];
 
-    const products = HOODIE_PRODUCTS;
+    const products = getProductsForCategory(currentId);
+
 
     const sortedProducts = useMemo(() => {
         const items = [...products];
