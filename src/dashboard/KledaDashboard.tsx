@@ -1,6 +1,6 @@
 import React from "react";
 import "./KledaDashboard.css";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import kledaLogo from "../images/kleda.png";
 import nikeLogo from "../images/nike.jpg";
 import genser1 from "../images/genser1.png";
@@ -46,25 +46,33 @@ export function Sidebar() {
             <img src={kledaLogo} alt="Kleda logo" />
           </div>
           <nav>
-            {/* GENERELT */}
-            <p className="sidebar-title">Generelt</p>
+            {/* GENERELT */}<p className="sidebar-title">Generelt</p>
             {general.map((item) => (
-                <Link key={item.label} to={item.to} className="nav-item">
+                <NavLink
+                    key={item.label}
+                    to={item.to}
+                    className={({ isActive }) =>
+                        "nav-item" + (isActive ? " nav-item-active" : "")
+                    }
+                >
                   {item.label}
-                </Link>
+                </NavLink>
             ))}
 
             {/* KATEGORIER */}
             <p className="sidebar-title">Kategorier</p>
             {categories.map((cat) => (
-                <Link
+                <NavLink
                     key={cat.id}
                     to={cat.id === "legg-til" ? "/ny-kategori" : `/kategori/${cat.id}`}
-                    className="nav-item"
+                    className={({ isActive }) =>
+                        "nav-item" + (isActive ? " nav-item-active" : "")
+                    }
                 >
                   {cat.label}
-                </Link>
+                </NavLink>
             ))}
+
 
             {/* RETURER */}
             <p className="sidebar-returer">Returer</p>

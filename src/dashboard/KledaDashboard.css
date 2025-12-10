@@ -134,6 +134,11 @@ body {
   color: #111827;
 }
 
+.nav-item-active {
+  font-weight: 600;
+  color: #f43f5e;
+}
+
 .nav-item:visited {
   color: #111827;
 }
