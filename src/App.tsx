@@ -4,6 +4,8 @@ import KledaDashboard from "./dashboard/KledaDashboard";
 import CategoryPage from "./category/CategoryPage";
 import LoginPage from "./login/LoginPage";
 import ProductDetails from "./productDetails/ProductDetails";
+import ReturnPage from "./return/ReturnPage";
+import ReturnIndividualProduct from "./return/ReturnIndividualProduct";
 
 const App: React.FC = () => {
     return (
@@ -20,6 +22,12 @@ const App: React.FC = () => {
 
                 {/* Produktdetalje side */}
                 <Route path="/produkt/:productId" element={<ProductDetails />} />
+
+                {/* Retur side */}
+                <Route path="/retur" element={<ReturnPage />} />
+
+                {/* Retur individuell produkt side */}
+                <Route path="/retur/produkt/:productId" element={<ReturnIndividualProduct />} />
             </Routes>
         </Router>
     );
