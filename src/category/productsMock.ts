@@ -1,5 +1,17 @@
+import airmax270 from "../images/airmax270.png";
+import bukse1 from "../images/bukse1.avif";
 import genser1 from "../images/genser1.png";
 import genser2 from "../images/genser2.jpg";
+import jakker1 from "../images/jakker1.avif";
+import jordanflight from "../images/jordanflight.png";
+import leggings1 from "../images/leggings1.avif";
+import nikesportsweardame from "../images/nikesportsweardame.png";
+import overdel1 from "../images/overdel1.avif";
+import sett1 from "../images/sett1.avif";
+import shorts1 from "../images/shorts1.avif";
+import sport1 from "../images/sport1.avif";
+import sportsBh1 from "../images/sportsBh1.avif";
+import tilbehor1 from "../images/tilbehor1.avif";
 
 export type Product = {
     id: number;
@@ -271,7 +283,7 @@ const BUKSE_PRODUCTS: Product[] = [
         clicks: 210,
         favorites: 48,
         inCart: 22,
-        img: genser2, // bytt til bukse-bilde senere
+        img: bukse1
     },
 ];
 
@@ -286,7 +298,7 @@ const LEGGINGS_PRODUCTS: Product[] = [
         clicks: 330,
         favorites: 60,
         inCart: 30,
-        img: genser1,
+        img: leggings1,
     },
 ];
 
@@ -301,7 +313,7 @@ const MATCHENDE_SETT_PRODUCTS: Product[] = [
         clicks: 190,
         favorites: 40,
         inCart: 15,
-        img: genser2,
+        img: sett1,
     },
 ];
 
@@ -316,7 +328,7 @@ const JAKKE_PRODUCTS: Product[] = [
         clicks: 260,
         favorites: 55,
         inCart: 19,
-        img: genser1,
+        img: jakker1,
     },
 ];
 
@@ -331,7 +343,7 @@ const OVERDELER_TSKJORTE_PRODUCTS: Product[] = [
         clicks: 420,
         favorites: 90,
         inCart: 45,
-        img: genser2,
+        img: overdel1,
     },
 ];
 
@@ -346,7 +358,7 @@ const SHORTS_PRODUCTS: Product[] = [
         clicks: 230,
         favorites: 35,
         inCart: 20,
-        img: genser1,
+        img: shorts1,
     },
 ];
 
@@ -361,7 +373,7 @@ const SPORTS_BH_PRODUCTS: Product[] = [
         clicks: 210,
         favorites: 50,
         inCart: 18,
-        img: genser2,
+        img: sportsBh1,
     },
 ];
 
@@ -376,7 +388,7 @@ const TILBEHOR_PRODUCTS: Product[] = [
         clicks: 310,
         favorites: 65,
         inCart: 40,
-        img: genser1,
+        img: tilbehor1,
     },
 ];
 
@@ -391,7 +403,7 @@ const SPORT_PRODUCTS: Product[] = [
         clicks: 180,
         favorites: 28,
         inCart: 10,
-        img: genser2,
+        img: sport1,
     },
 ];
 
