@@ -1,11 +1,41 @@
-// src/category/CategoryPage.tsx
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Sidebar } from "../dashboard/KledaDashboard";
-import {getProductsForCategory, HOODIE_PRODUCTS, Product} from "./productsMock";
 import "./CategoryPage.css";
 
+// Type for frontend display
+type ApiProduct = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  size: string;
+  color: string;
+  image: string;
+  stockQuantity: number;
+  brand: {
+    id: number;
+    name: string;
+    description: string;
+    country: string;
+  };
+  createdAt: string;
+};
 
+// Type for frontend display
+type Product = {
+  id: number;
+  name: string;
+  brand: string;
+  price: number;
+  img: string;
+  code: string;
+  sold: number;
+  clicks: number;
+  favorites: number;
+  inCart: number;
+};
 
 const CATEGORY_TITLES: Record<string, { title: string; description: string }> = {
     hoodies: {
@@ -59,29 +89,25 @@ type SortConfig = {
 
 const CategoryPage: React.FC = () => {
     const { categoryId } = useParams<{ categoryId: string }>();
-
     const currentId = categoryId ?? "hoodies";
-
-
-
     const navigate = useNavigate();
 
-    const handleRowClick = (id: number) => {
-        navigate(`/produkt/${id}`);
-    };
-
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
     const [sortConfig, setSortConfig] = useState<SortConfig>({
         key: "price",
         direction: "desc",
     });
 
+    const handleRowClick = (id: number) => {
+        navigate(`/produkt/${id}`);
+    };
+
     const handleSort = (key: SortKey) => {
         setSortConfig((prev) => {
             if (!prev || prev.key !== key) {
-                // ny kolonne → start med høy → lav
                 return { key, direction: "desc" };
             }
-            // samme kolonne → toggl retning
             return {
                 key,
                 direction: prev.direction === "desc" ? "asc" : "desc",
@@ -89,10 +115,58 @@ const CategoryPage: React.FC = () => {
         });
     };
 
+    // Fetch products from API
+    useEffect(() => {
+        const fetchProducts = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch(`http://localhost:8080/api/products`);
+                if (!response.ok) throw new Error("Failed to fetch products");
+                const allProducts: ApiProduct[] = await response.json();
+
+                // Map category IDs to category names
+                const categoryMap: Record<string, string> = {
+                    "hoodies": "Hettegensere og sweatshirts",
+                    "bukser": "Bukser",
+                    "leggings": "Leggings",
+                    "matchende-sett": "Matchende sett",
+                    "jakker": "Jakker",
+                    "overdeler-t-skjorter": "Overdeler og T-skjorter",
+                    "shorts": "Shorts",
+                    "sports-bh": "Sports-BH-er",
+                    "tilbehor": "Tilbehør",
+                    "sport": "Sport"
+                };
+
+                // Filter by category and transform to frontend format
+                const filtered = allProducts
+                    .filter(p => p.category === categoryMap[currentId])
+                    .map(p => ({
+                        id: p.id,
+                        name: p.name,
+                        brand: p.brand.name,
+                        price: Number(p.price),
+                        img: p.image || "/placeholder.jpg",
+                        code: `PROD-${p.id}`,
+                        // Mock data for fields not yet in backend
+                        sold: Math.floor(Math.random() * 100),
+                        clicks: Math.floor(Math.random() * 500),
+                        favorites: Math.floor(Math.random() * 50),
+                        inCart: Math.floor(Math.random() * 30),
+                    }));
+
+                setProducts(filtered);
+            } catch (err) {
+                console.error("Error fetching products:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, [currentId]);
+
     const meta = CATEGORY_TITLES[currentId] ?? CATEGORY_TITLES["hoodies"];
-
-    const products = getProductsForCategory(currentId);
-
 
     const sortedProducts = useMemo(() => {
         const items = [...products];
@@ -100,7 +174,6 @@ const CategoryPage: React.FC = () => {
         items.sort((a, b) => {
             const { key, direction } = sortConfig;
 
-            // tekst-sortering på navn (A–Å)
             if (key === "name") {
                 const aStr = `${a.brand} ${a.name}`.toLowerCase();
                 const bStr = `${b.brand} ${b.name}`.toLowerCase();
@@ -108,7 +181,6 @@ const CategoryPage: React.FC = () => {
                 return direction === "asc" ? cmp : -cmp;
             }
 
-            // tall-sortering
             let aVal = 0;
             let bVal = 0;
 
@@ -148,13 +220,11 @@ const CategoryPage: React.FC = () => {
                 <Sidebar />
 
                 <div className="category-wrapper">
-                    {/* Tittel + beskrivelse */}
                     <header className="category-header">
                         <h1>{meta.title}</h1>
                         <p>{meta.description}</p>
                     </header>
 
-                    {/* Filter + søk + knapp */}
                     <div className="category-controls">
                         <select className="category-period-select">
                             <option>Denne uken</option>
@@ -171,132 +241,135 @@ const CategoryPage: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Selve tabellen i en "card" */}
-                    <div className="category-table-card">
-                        {/* Header-rad */}
-                        <div className="category-table-header">
-                            <div className="category-header-product">
-                                <span>Produkt info</span>
-                                <button
-                                    className={
-                                        "sort-button " +
-                                        (sortConfig.key === "name" ? "active" : "")
-                                    }
-                                    onClick={() => handleSort("name")}
-                                >
-                                    A - Å
-                                    {sortConfig.key === "name" && (
-                                        <span className="sort-arrow">
-                      {sortConfig.direction === "asc" ? "▲" : "▼"}
-                    </span>
-                                    )}
-                                </button>
-                            </div>
-
-                            <span
-                                className={
-                                    "category-col-label sortable " +
-                                    (sortConfig.key === "price" ? "active" : "")
-                                }
-                                onClick={() => handleSort("price")}
-                            >
-                Pris
-                                {sortConfig.key === "price" && (
-                                    <span className="sort-arrow">
-                    {sortConfig.direction === "desc" ? "▼" : "▲"}
-                  </span>
-                                )}
-              </span>
-
-                            <span
-                                className={
-                                    "category-col-label sortable " +
-                                    (sortConfig.key === "sold" ? "active" : "")
-                                }
-                                onClick={() => handleSort("sold")}
-                            >
-                Solgt
-                                {sortConfig.key === "sold" && (
-                                    <span className="sort-arrow">
-                    {sortConfig.direction === "desc" ? "▼" : "▲"}
-                  </span>
-                                )}
-              </span>
-
-                            <span
-                                className={
-                                    "category-col-label sortable " +
-                                    (sortConfig.key === "clicks" ? "active" : "")
-                                }
-                                onClick={() => handleSort("clicks")}
-                            >
-                Klikk
-                                {sortConfig.key === "clicks" && (
-                                    <span className="sort-arrow">
-                    {sortConfig.direction === "desc" ? "▼" : "▲"}
-                  </span>
-                                )}
-              </span>
-
-                            <span
-                                className={
-                                    "category-col-label sortable " +
-                                    (sortConfig.key === "favorites" ? "active" : "")
-                                }
-                                onClick={() => handleSort("favorites")}
-                            >
-                Favoritter
-                                {sortConfig.key === "favorites" && (
-                                    <span className="sort-arrow">
-                    {sortConfig.direction === "desc" ? "▼" : "▲"}
-                  </span>
-                                )}
-              </span>
-
-                            <span
-                                className={
-                                    "category-col-label sortable " +
-                                    (sortConfig.key === "inCart" ? "active" : "")
-                                }
-                                onClick={() => handleSort("inCart")}
-                            >
-                I handlekurv
-                                {sortConfig.key === "inCart" && (
-                                    <span className="sort-arrow">
-                    {sortConfig.direction === "desc" ? "▼" : "▲"}
-                  </span>
-                                )}
-              </span>
+                    {loading ? (
+                        <div className="category-table-card">
+                            <p style={{ padding: "2rem", textAlign: "center" }}>Laster produkter...</p>
                         </div>
-
-                        {/* Produkt-rader */}
-                        {sortedProducts.map((p) => (
-                            <div key={p.id} className="category-row" onClick={() => handleRowClick(p.id)}>
-                                <div className="category-product-cell">
-                                    <img src={p.img} alt={p.name} />
-                                    <div className="category-product-text">
-                                        <div className="category-product-title-line">
-                      <span className="category-product-brand">
-                        {p.brand}
-                      </span>
-                                            <span className="category-product-name">{p.name}</span>
-                                        </div>
-                                        <span className="category-product-id">
-                      Id: {p.code}
-                    </span>
-                                    </div>
+                    ) : (
+                        <div className="category-table-card">
+                            <div className="category-table-header">
+                                <div className="category-header-product">
+                                    <span>Produkt info</span>
+                                    <button
+                                        className={
+                                            "sort-button " +
+                                            (sortConfig.key === "name" ? "active" : "")
+                                        }
+                                        onClick={() => handleSort("name")}
+                                    >
+                                        A - Å
+                                        {sortConfig.key === "name" && (
+                                            <span className="sort-arrow">
+                                                {sortConfig.direction === "asc" ? "▲" : "▼"}
+                                            </span>
+                                        )}
+                                    </button>
                                 </div>
 
-                                <span className="category-col numeric">
-                  {p.price.toLocaleString("nb-NO")}
-                </span>
-                                <span className="category-col numeric">{p.sold}</span>
-                                <span className="category-col numeric">{p.clicks}</span>
-                                <span className="category-col numeric">{p.favorites}</span>
-                                <span className="category-col numeric">{p.inCart}</span>
+                                <span
+                                    className={
+                                        "category-col-label sortable " +
+                                        (sortConfig.key === "price" ? "active" : "")
+                                    }
+                                    onClick={() => handleSort("price")}
+                                >
+                                    Pris
+                                    {sortConfig.key === "price" && (
+                                        <span className="sort-arrow">
+                                            {sortConfig.direction === "desc" ? "▼" : "▲"}
+                                        </span>
+                                    )}
+                                </span>
+
+                                <span
+                                    className={
+                                        "category-col-label sortable " +
+                                        (sortConfig.key === "sold" ? "active" : "")
+                                    }
+                                    onClick={() => handleSort("sold")}
+                                >
+                                    Solgt
+                                    {sortConfig.key === "sold" && (
+                                        <span className="sort-arrow">
+                                            {sortConfig.direction === "desc" ? "▼" : "▲"}
+                                        </span>
+                                    )}
+                                </span>
+
+                                <span
+                                    className={
+                                        "category-col-label sortable " +
+                                        (sortConfig.key === "clicks" ? "active" : "")
+                                    }
+                                    onClick={() => handleSort("clicks")}
+                                >
+                                    Klikk
+                                    {sortConfig.key === "clicks" && (
+                                        <span className="sort-arrow">
+                                            {sortConfig.direction === "desc" ? "▼" : "▲"}
+                                        </span>
+                                    )}
+                                </span>
+
+                                <span
+                                    className={
+                                        "category-col-label sortable " +
+                                        (sortConfig.key === "favorites" ? "active" : "")
+                                    }
+                                    onClick={() => handleSort("favorites")}
+                                >
+                                    Favoritter
+                                    {sortConfig.key === "favorites" && (
+                                        <span className="sort-arrow">
+                                            {sortConfig.direction === "desc" ? "▼" : "▲"}
+                                        </span>
+                                    )}
+                                </span>
+
+                                <span
+                                    className={
+                                        "category-col-label sortable " +
+                                        (sortConfig.key === "inCart" ? "active" : "")
+                                    }
+                                    onClick={() => handleSort("inCart")}
+                                >
+                                    I handlekurv
+                                    {sortConfig.key === "inCart" && (
+                                        <span className="sort-arrow">
+                                            {sortConfig.direction === "desc" ? "▼" : "▲"}
+                                        </span>
+                                    )}
+                                </span>
                             </div>
-                        ))}
-                    </div>
+
+                            {sortedProducts.map((p) => (
+                                <div key={p.id} className="category-row" onClick={() => handleRowClick(p.id)}>
+                                    <div className="category-product-cell">
+                                        <img src={p.img} alt={p.name} />
+                                        <div className="category-product-text">
+                                            <div className="category-product-title-line">
+                                                <span className="category-product-brand">
+                                                    {p.brand}
+                                                </span>
+                                                <span className="category-product-name">{p.name}</span>
+                                            </div>
+                                            <span className="category-product-id">
+                                                Id: {p.code}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <span className="category-col numeric">
+                                        {p.price.toLocaleString("nb-NO")}
+                                    </span>
+                                    <span className="category-col numeric">{p.sold}</span>
+                                    <span className="category-col numeric">{p.clicks}</span>
+                                    <span className="category-col numeric">{p.favorites}</span>
+                                    <span className="category-col numeric">{p.inCart}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
