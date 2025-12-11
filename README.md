@@ -1,20 +1,46 @@
 # Kleda Frontend
 
-En React-applikasjon for å administrere produkter, kategorier og salgsstatistikk.
+En React-applikasjon for å administrere produkter, kategorier og salgsstatistikk for Nike.
 
 ## Kom i gang
 
-Før du kjører applikasjonen:
+### Forutsetninger
 
-### `npm install`
+- Node.js installert
+- Backend må kjøre på `http://localhost:8080`
 
-Deretter kan du starte applikasjonen:
+### Installasjon
 
-### `npm start`
+1. Installer avhengigheter:
+```bash
+npm install
+```
 
-Åpner applikasjonen på [http://localhost:3000](http://localhost:3000)
+2. Opprett `.env` fil (hvis ikke allerede gjort):
+```env
+REACT_APP_API_BASE_URL=http://localhost:8080
+```
+
+3. Start applikasjonen:
+```bash
+npm start
+```
+
+Applikasjonen åpnes på [http://localhost:3000]
 
 ## Prosjektstruktur
+
+### API-integrasjon
+
+- **src/services/api.ts** - API-klient for kommunikasjon med backend
+- **src/types/api.ts** - TypeScript types for API-data
+- **.env** - Miljøvariabler (API URL)
+
+API-klienten støtter:
+- Autentisering (login, registrering, brukernavn-sjekk)
+- Brand-data (brands, analytics, sales, returns, carts)
+- Produkter (alle produkter, produkter per brand, enkeltprodukt)
+- Salg og handlevogner
 
 ### Hovedfiler
 
@@ -29,6 +55,8 @@ Applikasjonen har følgende ruter:
 - `/dashboard` - Dashboard med oversikt over salg og produkter
 - `/kategori/:categoryId` - Viser produkter i en kategori
 - `/produkt/:productId` - Detaljert produktvisning
+- `/retur` - Returside med oversikt over returer
+- `/retur/produkt/:productId` - Individuell returside for et spesifikt produkt
 
 ### Komponenter og sider
 
@@ -63,7 +91,9 @@ Applikasjonen har følgende ruter:
 
 #### Retur (`src/return/`)
 
-- **ReturnPage.tsx** - Placeholder for returstatistikk (ikke implementert ennå)
+- **ReturnPage.tsx** - Oversikt over returer med statistikk og søk
+- **ReturnIndividualProduct.tsx** - Detaljert returinformasjon for et spesifikt produkt
+- Viser returårsaker, tidslinjer og refusjonsbeløp
 
 ### Data
 
@@ -79,6 +109,22 @@ Applikasjonen har følgende ruter:
 - React med TypeScript
 - React Router for navigasjon
 - CSS for styling
+- Fetch API for backend-kommunikasjon
+
+## Bruke API-klienten
+
+```typescript
+import { api } from './services/api';
+
+// Hent brand analytics
+const analytics = await api.getBrandAnalytics(1);
+
+// Hent produkter for en brand
+const products = await api.getProducts(1);
+
+// Login
+const response = await api.login('username', 'password');
+```
 
 ## Andre scripts
 
