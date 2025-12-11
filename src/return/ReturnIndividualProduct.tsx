@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Sidebar } from "../dashboard/KledaDashboard";
 import "../dashboard/KledaDashboard.css";
 import "./ReturnPage.css";
@@ -13,8 +13,6 @@ const MiniPieChart: React.FC<{ wrong: number; material: number; other: number }>
     const materialPercent = (material / total) * 100;
     const otherPercent = (other / total) * 100;
 
-    let cumulativePercent = 0;
-    
     const createArc = (percent: number, startPercent: number) => {
         const startAngle = (startPercent / 100) * 2 * Math.PI - Math.PI / 2;
         const endAngle = ((startPercent + percent) / 100) * 2 * Math.PI - Math.PI / 2;
@@ -53,7 +51,6 @@ const MiniLineChart: React.FC<{ data: number[] }> = ({ data }) => {
 
     return (
         <svg width="100" height="40" viewBox="0 0 100 40" className="mini-line-chart">
-            {/* Y-axis (vertical line) */}
             <line 
                 x1={padding} 
                 y1={padding} 
@@ -62,7 +59,6 @@ const MiniLineChart: React.FC<{ data: number[] }> = ({ data }) => {
                 stroke="#d1d5db" 
                 strokeWidth="1.5"
             />
-            {/* X-axis (horizontal line) */}
             <line 
                 x1={padding} 
                 y1={height - padding} 
@@ -71,7 +67,6 @@ const MiniLineChart: React.FC<{ data: number[] }> = ({ data }) => {
                 stroke="#d1d5db" 
                 strokeWidth="1.5"
             />
-            {/* Line chart */}
             <polyline
                 points={points}
                 fill="none"
@@ -80,7 +75,6 @@ const MiniLineChart: React.FC<{ data: number[] }> = ({ data }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
             />
-            {/* Data points */}
             {data.map((value, index) => {
                 const x = padding + (index / (data.length - 1)) * (width - 2 * padding);
                 const y = height - padding - ((value - minValue) / range) * (height - 2 * padding);
@@ -90,32 +84,39 @@ const MiniLineChart: React.FC<{ data: number[] }> = ({ data }) => {
     );
 };
 
-const ReturnPage: React.FC = () => {
+const ReturnIndividualProduct: React.FC = () => {
+    const { productId } = useParams<{ productId: string }>();
     const navigate = useNavigate();
-    const [activeTab, setActiveTab] = useState<"general" | "product">("general");
     const [showProductDropdown, setShowProductDropdown] = useState(false);
+    const [selectedColor, setSelectedColor] = useState("Black");
 
     const products = [
-        { id: 1, name: "Nike Hettegenser", image: genser1 },
-        { id: 2, name: "Adidas Bukse", image: bukse1 }
+        { id: 1, name: "Nike Club Full-Zip Hoodie", image: genser1 },
+        { id: 2, name: "Nike Sportswear Tech Fleece Joggers", image: bukse1 }
     ];
+
+    // Finn det valgte produktet basert på productId
+    const currentProduct = products.find(p => p.id === Number(productId)) || products[0];
+
+    const colors = ["Black", "Grey", "Blue", "White"];
 
     return (
         <div className="main-layout">
             <Sidebar />
-            <div className="return-content">
-                <div className="return-wrapper">
+            <div className="return-content return-content-compact">
+                <div className="return-wrapper return-wrapper-compact">
                     <div className="return-header">
-                        <h1 className="return-title">Returer</h1>
+                        <h1 className="return-title">Retur {currentProduct.name}</h1>
                         <div className="return-buttons">
                             <button 
-                                className={`return-btn ${activeTab === "general" ? "active" : ""}`}
+                                className="return-btn"
+                                onClick={() => navigate("/retur")}
                             >
                                 Generell retur
                             </button>
                             <div className="dropdown-wrapper">
                                 <button 
-                                    className={`return-btn return-dropdown`}
+                                    className="return-btn return-dropdown"
                                     onClick={() => setShowProductDropdown(!showProductDropdown)}
                                 >
                                     Retur for produkt ▼
@@ -140,7 +141,22 @@ const ReturnPage: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="return-table-container">
+                    <div className="return-table-container return-table-container-compact">
+                        <div className="return-product-header">
+                            <img src={currentProduct.image} alt={currentProduct.name} className="return-product-image" />
+                            <div className="return-color-select">
+                                <label>Farge:</label>
+                                <select 
+                                    value={selectedColor} 
+                                    onChange={(e) => setSelectedColor(e.target.value)}
+                                    className="color-dropdown"
+                                >
+                                    {colors.map(color => (
+                                        <option key={color} value={color}>{color}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
                         <div className="table-with-labels">
                             <div className="table-row-labels">
                                 <div className="row-label"></div>
@@ -153,36 +169,36 @@ const ReturnPage: React.FC = () => {
                             <table className="return-table">
                                 <thead>
                                     <tr>
-                                        <th>Klær</th>
-                                        <th>Sko</th>
-                                        <th>Tilbehør</th>
+                                        <th>Small</th>
+                                        <th>Medium</th>
+                                        <th>Large</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>8%</td>
-                                        <td>3%</td>
-                                        <td>22%</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1500</td>
-                                        <td>10 000</td>
-                                        <td>8000</td>
-                                    </tr>
-                                    <tr>
-                                        <td>32%</td>
-                                        <td>82%</td>
+                                        <td>5%</td>
                                         <td>12%</td>
+                                        <td>8%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>800</td>
+                                        <td>2500</td>
+                                        <td>1200</td>
+                                    </tr>
+                                    <tr>
+                                        <td>45%</td>
+                                        <td>28%</td>
+                                        <td>35%</td>
                                     </tr>
                                     <tr className="pie-chart-row">
-                                        <td><MiniPieChart wrong={40} material={35} other={25} /></td>
                                         <td><MiniPieChart wrong={50} material={30} other={20} /></td>
-                                        <td><MiniPieChart wrong={30} material={45} other={25} /></td>
+                                        <td><MiniPieChart wrong={35} material={40} other={25} /></td>
+                                        <td><MiniPieChart wrong={45} material={35} other={20} /></td>
                                     </tr>
                                     <tr className="line-chart-row">
-                                        <td><MiniLineChart data={[5, 8, 6, 12, 10, 15, 13]} /></td>
-                                        <td><MiniLineChart data={[10, 8, 12, 9, 14, 11, 16]} /></td>
-                                        <td><MiniLineChart data={[3, 5, 4, 8, 7, 10, 12]} /></td>
+                                        <td><MiniLineChart data={[3, 5, 4, 7, 6, 9, 8]} /></td>
+                                        <td><MiniLineChart data={[8, 10, 9, 13, 11, 15, 14]} /></td>
+                                        <td><MiniLineChart data={[5, 6, 5, 8, 7, 10, 9]} /></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -212,4 +228,4 @@ const ReturnPage: React.FC = () => {
     );
 };
 
-export default ReturnPage;
+export default ReturnIndividualProduct;
