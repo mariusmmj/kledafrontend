@@ -27,9 +27,9 @@ const MiniPieChart: React.FC<{ wrong: number; material: number; other: number }>
 
     return (
         <svg width="40" height="40" viewBox="0 0 40 40" className="mini-pie-chart">
-            <path d={createArc(wrongPercent, 0)} fill="#ef4444" />
-            <path d={createArc(materialPercent, wrongPercent)} fill="#3b82f6" />
-            <path d={createArc(otherPercent, wrongPercent + materialPercent)} fill="#a855f7" />
+            <path d={createArc(wrongPercent, 0)} fill="#c9a29a" />
+            <path d={createArc(materialPercent, wrongPercent)} fill="#111827" />
+            <path d={createArc(otherPercent, wrongPercent + materialPercent)} fill="#6b7280" />
         </svg>
     );
 };
@@ -205,15 +205,15 @@ const ReturnIndividualProduct: React.FC = () => {
                         </div>
                         <div className="pie-chart-legend">
                             <div className="legend-item">
-                                <span className="legend-color" style={{ background: '#ef4444' }}></span>
+                                <span className="legend-color" style={{ background: '#c9a29a' }}></span>
                                 <span>Feil størrelse</span>
                             </div>
                             <div className="legend-item">
-                                <span className="legend-color" style={{ background: '#3b82f6' }}></span>
+                                <span className="legend-color" style={{ background: '#111827' }}></span>
                                 <span>Dårlig materiale</span>
                             </div>
                             <div className="legend-item">
-                                <span className="legend-color" style={{ background: '#a855f7' }}></span>
+                                <span className="legend-color" style={{ background: '#6b7280' }}></span>
                                 <span>Annet</span>
                             </div>
                         </div>
