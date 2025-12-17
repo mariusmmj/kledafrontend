@@ -18,12 +18,6 @@ Applikasjonen åpnes på [http://localhost:3000]
 
 ## Prosjektstruktur
 
-### API-integrasjon
-
-- **src/services/api.ts** - API-klient for kommunikasjon med backend
-- **src/types/api.ts** - TypeScript types for API-data
-- **.env** - Miljøvariabler (API URL)
-
 API-klienten støtter:
 - Autentisering (login, registrering, brukernavn-sjekk)
 - Brand-data (brands, analytics, sales, returns, carts)
