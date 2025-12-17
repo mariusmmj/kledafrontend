@@ -1,13 +1,6 @@
 # Kleda Frontend
 
-En React-applikasjon for å administrere produkter, kategorier og salgsstatistikk for Nike.
-
-## Kom i gang
-
-### Forutsetninger
-
-- Node.js installert
-- Backend må kjøre på `http://localhost:8080`
+En React-applikasjon for å administrere produkter, kategorier og salgsstatistikk for Kleda.
 
 ### Installasjon
 
@@ -16,12 +9,7 @@ En React-applikasjon for å administrere produkter, kategorier og salgsstatistik
 npm install
 ```
 
-2. Opprett `.env` fil (hvis ikke allerede gjort):
-```env
-REACT_APP_API_BASE_URL=http://localhost:8080
-```
-
-3. Start applikasjonen:
+2. Start applikasjonen:
 ```bash
 npm start
 ```
@@ -110,29 +98,3 @@ Applikasjonen har følgende ruter:
 - React Router for navigasjon
 - CSS for styling
 - Fetch API for backend-kommunikasjon
-
-## Bruke API-klienten
-
-```typescript
-import { api } from './services/api';
-
-// Hent brand analytics
-const analytics = await api.getBrandAnalytics(1);
-
-// Hent produkter for en brand
-const products = await api.getProducts(1);
-
-// Login
-const response = await api.login('username', 'password');
-```
-
-## Andre scripts
-
-### `npm test`
-
-Kjører testene i watch mode.
-
-### `npm run build`
-
-Bygger applikasjonen for produksjon til `build` mappen.
-
