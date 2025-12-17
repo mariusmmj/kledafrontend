@@ -18,12 +18,6 @@ Applikasjonen åpnes på [http://localhost:3000]
 
 ## Prosjektstruktur
 
-API-klienten støtter:
-- Autentisering (login, registrering, brukernavn-sjekk)
-- Brand-data (brands, analytics, sales, returns, carts)
-- Produkter (alle produkter, produkter per brand, enkeltprodukt)
-- Salg og handlevogner
-
 ### Hovedfiler
 
 - **src/App.tsx** - Hovedkomponenten som setter opp routing med React Router
@@ -91,4 +85,3 @@ Applikasjonen har følgende ruter:
 - React med TypeScript
 - React Router for navigasjon
 - CSS for styling
-- Fetch API for backend-kommunikasjon
